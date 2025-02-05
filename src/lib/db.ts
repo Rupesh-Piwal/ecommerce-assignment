@@ -1,13 +1,11 @@
-import mongoose from "mongoose";
-const MONGODB_URI = process.env.MONGODB_URI || "";
+import { MongoClient, Db } from "mongodb";
 
-if (!MONGODB_URI) {
-  throw new Error("Please define the MONGODB_URI environment variable");
+let db: Db | null = null;
+
+export async function connectDB(): Promise<Db> {
+  if (db) return db;
+
+  const client = await MongoClient.connect(process.env.MONGODB_URI as string);
+  db = client.db();
+  return db;
 }
-
-export const connectDB = async () => {
-  if (mongoose.connection.readyState >= 1) {
-    return;
-  }
-  await mongoose.connect(MONGODB_URI);
-};
