@@ -4,6 +4,9 @@ interface IUser {
   name: string;
   email: string;
   password: string;
+  verifyCode: string;
+  verifyCodeExpiry: Date;
+  isVerified: boolean;
   categories: mongoose.Types.ObjectId[];
   createdAt?: Date;
 }
@@ -19,6 +22,12 @@ const UserSchema = new Schema<UserDocument>({
     match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email address"],
   },
   password: { type: String, required: [true, "Password is required"] },
+  verifyCode: { type: String, required: [true, "Verify code is required"] },
+  verifyCodeExpiry: {
+    type: Date,
+    required: [true, "Verify code expiry is required"],
+  },
+  isVerified: { type: Boolean, default: false },
   categories: [{ type: Schema.Types.ObjectId, ref: "Category" }],
   createdAt: { type: Date, default: Date.now },
 });
