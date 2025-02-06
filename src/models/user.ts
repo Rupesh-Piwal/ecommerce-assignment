@@ -1,6 +1,7 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
-interface IUser {
+export interface UserDocument extends Document {
+  _id: mongoose.Types.ObjectId;
   name: string;
   email: string;
   password: string;
@@ -10,8 +11,6 @@ interface IUser {
   categories: mongoose.Types.ObjectId[];
   createdAt?: Date;
 }
-
-interface UserDocument extends IUser, Document {}
 
 const UserSchema = new Schema<UserDocument>({
   name: { type: String, required: [true, "Name is required"] },
